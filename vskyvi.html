@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>维拉天空酒店 · 品牌视觉识别系统 VI Brand Guidelines</title>
+<style>
+  :root{
+    --green:#1F3A34; --green-deep:#14231F; --gold:#C6A567; --gold-deep:#A9814B;
+    --ivory:#F5F2EC; --mist:#EDE8DE; --slate:#5B6B7D;
+    --serif:'Source Han Sans SC','Noto Sans SC','Source Han Sans CN','Alibaba PuHuiTi 3.0','Alibaba PuHuiTi','PingFang SC','Microsoft YaHei',sans-serif;
+    --sans:'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+    --lat:'Optima','Futura','Century Gothic','Avenir Next',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--ivory);color:var(--green);font-family:var(--sans);font-size:15px;line-height:1.9}
+  ::selection{background:var(--gold);color:#fff}
+
+  .ch{padding:110px 8vw;max-width:1180px;margin:0 auto}
+  .eyebrow{font-family:var(--lat);font-size:12px;letter-spacing:6px;color:var(--gold-deep);text-transform:uppercase;margin-bottom:14px}
+  .eyebrow .no{display:inline-block;border:1px solid var(--gold);padding:2px 9px;margin-right:12px;color:var(--gold-deep)}
+  h2{font-family:var(--serif);font-weight:600;font-size:38px;letter-spacing:4px;margin-bottom:8px}
+  .h2en{font-family:var(--lat);font-size:13px;letter-spacing:4px;color:var(--slate);text-transform:uppercase;margin-bottom:48px}
+  h3{font-family:var(--serif);font-size:21px;letter-spacing:2px;margin:56px 0 18px;font-weight:600}
+  h3:first-of-type{margin-top:0}
+  p.note{color:var(--slate);font-size:14px;max-width:64ch}
+  .arc-rule{display:block;width:150px;height:28px;margin:26px 0 0}
+
+  /* cover */
+  .cover{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;padding:60px 20px}
+  .cover .logo{width:190px;height:190px}
+  .cover .lat-name{font-family:var(--lat);font-size:30px;letter-spacing:14px;text-indent:14px;margin-top:26px}
+  .cover .cn-name{font-family:var(--serif);font-size:44px;letter-spacing:16px;text-indent:16px;margin-top:10px}
+  .cover .slogan-cn{font-family:var(--serif);font-size:17px;letter-spacing:6px;color:var(--gold-deep);margin-top:40px}
+  .cover .slogan-en{font-family:var(--lat);font-size:12px;letter-spacing:3px;color:var(--slate);font-style:italic;margin-top:8px}
+  .cover .doc-tag{position:absolute;bottom:44px;font-family:var(--lat);font-size:11px;letter-spacing:5px;color:var(--slate);text-transform:uppercase}
+
+  /* generic cards & grids */
+  .grid{display:grid;gap:26px}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+  .card{background:#fff;border:1px solid rgba(31,58,52,.08);padding:34px;border-radius:2px}
+  .card.dark{background:var(--green);color:var(--ivory)}
+  .card.deep{background:var(--green-deep);color:var(--ivory)}
+  .cap{font-family:var(--lat);font-size:11px;letter-spacing:3px;color:var(--slate);text-transform:uppercase;margin-top:18px;text-align:center}
+  .card.dark .cap,.card.deep .cap{color:var(--gold)}
+  .center{display:flex;align-items:center;justify-content:center}
+
+  /* lockups */
+  .lockup-v{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .lockup-v .logo{width:130px;height:130px}
+  .lockup-v .lat{font-family:var(--lat);font-size:19px;letter-spacing:10px;text-indent:10px;margin-top:12px}
+  .lockup-v .cn{font-family:var(--serif);font-size:15px;letter-spacing:7px;text-indent:7px;margin-top:6px;color:var(--slate)}
+  .card.dark .lockup-v .cn,.card.deep .lockup-v .cn{color:var(--gold)}
+  .lockup-h{display:flex;align-items:center;gap:26px;justify-content:center}
+  .lockup-h .logo{width:96px;height:96px;flex:none}
+  .lockup-h .tx{border-left:1px solid var(--gold);padding-left:26px}
+  .lockup-h .lat{font-family:var(--lat);font-size:20px;letter-spacing:7px}
+  .lockup-h .cn{font-family:var(--serif);font-size:14px;letter-spacing:5px;color:var(--slate);margin-top:5px}
+
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:13px 16px;border-bottom:1px solid rgba(31,58,52,.1);vertical-align:top}
+  th{font-family:var(--lat);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--slate);font-weight:500}
+
+  @media (max-width:760px){
+    .ch{padding:70px 6vw}
+    h2{font-size:29px}
+    .cover .cn-name{font-size:30px;letter-spacing:9px}
+    .lockup-h{flex-direction:column;text-align:center}
+    .lockup-h .tx{border-left:none;border-top:1px solid var(--gold);padding:18px 0 0}
+  }
+</style>
+</head>
+<body>
+
+<!-- ======= SVG SYMBOLS ======= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- two-tone mark: V follows currentColor, sun & arc stay gold -->
+    <symbol id="mark" viewBox="0 0 200 200">
+      <path d="M19.45,16.08 L100,192 L180.55,16.08 L171.45,11.92 L100,168 L28.55,11.92 Z" fill="currentColor"/>
+      <circle cx="100" cy="47" r="18" fill="var(--gold,#C6A567)"/>
+      <path d="M19.55,127.07 C63.16,106.39 136.84,106.39 180.45,127.07 C136.84,110.9 63.16,110.9 19.55,127.07 Z" fill="var(--gold,#C6A567)"/>
+    </symbol>
+    <!-- monochrome mark: everything follows currentColor -->
+    <symbol id="mark-mono" viewBox="0 0 200 200">
+      <path d="M19.45,16.08 L100,192 L180.55,16.08 L171.45,11.92 L100,168 L28.55,11.92 Z" fill="currentColor"/>
+      <circle cx="100" cy="47" r="18" fill="currentColor"/>
+      <path d="M19.55,127.07 C63.16,106.39 136.84,106.39 180.45,127.07 C136.84,110.9 63.16,110.9 19.55,127.07 Z" fill="currentColor"/>
+    </symbol>
+    <!-- tapered arc + sun, used as ornament -->
+    <symbol id="arc-orn" viewBox="0 0 200 40">
+      <circle cx="100" cy="12" r="6" fill="var(--gold,#C6A567)"/>
+      <path d="M10,36 C60,16 140,16 190,36 C140,20 60,20 10,36 Z" fill="var(--gold,#C6A567)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ======= COVER ======= -->
+<section class="cover">
+  <svg class="logo" style="color:var(--green)"><use href="#mark"/></svg>
+  <div class="lat-name">VEYRA</div>
+  <div class="cn-name">维拉天空酒店</div>
+  <div class="slogan-cn">天际无遮 · 闹中独享</div>
+  <div class="slogan-en">Where the Sky Opens, the City Rests</div>
+  <div class="doc-tag">Brand Identity Guidelines · V1.0 · 2026</div>
+</section>
+
+<!-- ======= 01 品牌概述 ======= -->
+<section class="ch" id="c1">
+  <div class="eyebrow"><span class="no">01</span>Brand Overview</div>
+  <h2>品牌概述</h2>
+  <div class="h2en">名称 · 定位 · 品牌主张</div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3 style="margin-top:0">名称释义</h3>
+      <p><strong>维拉天空酒店 / Veyra Sky Hotel</strong>（简称 <strong>V 酒店 / V Hotel</strong>）。"维拉"为 Veyra 的音译。Veyra 之名可溯至拉丁语 <em>verus</em>、古法语 <em>verai</em>——"真实、真诚"，这也正是英文 very 的本义。英语习语 "the very thing" 意为"恰恰是所需之物、恰如其分"（just what is suitable or requisite）：真诚的款待，恰到好处——不缺席，也不过度。"天空"直译 Sky，点明品牌的核心资产——高层无遮挡的城市天际视野。</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">品牌主张</h3>
+      <p style="font-family:var(--serif);font-size:19px;letter-spacing:3px">天际无遮，闹中独享</p>
+      <p style="font-family:var(--lat);font-size:13px;letter-spacing:2px;font-style:italic;color:var(--slate)">Where the Sky Opens, the City Rests</p>
+      <p class="note" style="margin-top:14px">上半句写"景"——开阔、无遮蔽的天空；下半句写"境"——身处闹市，却拥有一方静谧。英文以 "the City Rests" 将城市拟人化，喧嚣在此止息。</p>
+    </div>
+  </div>
+
+  <h3>品牌气质关键词</h3>
+  <p>开阔 Openness　·　静谧 Stillness　·　克制 Restraint　·　高处 Elevation　·　都市绿洲 Urban Sanctuary</p>
+  <p class="note">所有视觉与文字表达都应回到这五个词：多留白、少装饰；宁静而非热闹；含蓄而非张扬。</p>
+</section>
+<!-- ======= 02 标志规范 ======= -->
+<section class="ch" id="c2" style="max-width:1180px">
+  <div class="eyebrow"><span class="no">02</span>Logo System</div>
+  <h2>标志规范</h2>
+  <div class="h2en">构成释义 · 标准组合 · 变体 · 使用规则</div>
+
+  <h3>构成释义</h3>
+  <div class="grid g3">
+    <div class="card center" style="flex-direction:column">
+      <svg style="width:110px;height:110px;color:var(--green)"><use href="#mark-mono"/></svg>
+      <div class="cap">V 字 · 以诚相待</div>
+      <p class="note" style="text-align:center;margin-top:8px;font-size:13px">两道等宽利落的斜线，是 Veyra 的首字母；词根 verus 意为"真"。V 向天空完全敞开、毫无遮掩——以真诚相待，恰如其分（the very thing）。</p>
+    </div>
+    <div class="card center" style="flex-direction:column">
+      <svg style="width:110px;height:110px" viewBox="0 0 200 200"><circle cx="100" cy="100" r="34" fill="#C6A567"/></svg>
+      <div class="cap">太阳 · 无遮之光</div>
+      <p class="note" style="text-align:center;margin-top:8px;font-size:13px">悬浮于开口正中，不与任何线条相触——"天际无遮"的直译。</p>
+    </div>
+    <div class="card center" style="flex-direction:column">
+      <svg style="width:110px;height:44px"><use href="#arc-orn"/></svg>
+      <div class="cap">弧线 · 城市地平线</div>
+      <p class="note" style="text-align:center;margin-top:8px;font-size:13px">两端渐细的一道弧，是楼宇之下延展的城市；V 的尖角穿弧而下，扎根闹市。</p>
+    </div>
+  </div>
+
+  <h3>标准组合</h3>
+  <div class="grid g2">
+    <div class="card center" style="min-height:330px">
+      <div class="lockup-v">
+        <svg class="logo" style="color:var(--green)"><use href="#mark"/></svg>
+        <div class="lat">VEYRA</div>
+        <div class="cn">维拉天空酒店</div>
+      </div>
+    </div>
+    <div class="card center" style="min-height:330px">
+      <div class="lockup-h">
+        <svg class="logo" style="color:var(--green)"><use href="#mark"/></svg>
+        <div class="tx">
+          <div class="lat">VEYRA</div>
+          <div class="cn">维拉天空酒店</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:26px">
+    <div class="cap">主标志 · 竖版（优先使用）</div>
+    <div class="cap">主标志 · 横版（横向空间受限时）</div>
+  </div>
+
+  <h3>标志变体</h3>
+  <div class="grid g3">
+    <div class="card dark center" style="min-height:210px">
+      <div class="lockup-v">
+        <svg style="width:104px;height:104px;color:var(--ivory)"><use href="#mark"/></svg>
+        <div class="lat" style="letter-spacing:8px;font-size:16px">VEYRA</div>
+      </div>
+    </div>
+    <div class="card center" style="min-height:210px">
+      <svg style="width:120px;height:120px;color:var(--green)"><use href="#mark-mono"/></svg>
+    </div>
+    <div class="card deep center" style="min-height:210px">
+      <svg style="width:120px;height:120px;color:var(--gold)"><use href="#mark-mono"/></svg>
+    </div>
+  </div>
+  <div class="grid g3" style="margin-top:22px">
+    <div class="cap">反白版 · 深底使用</div>
+    <div class="cap">单色版 · 传真/压印/单色印刷</div>
+    <div class="cap">金版 · 烫金/织绣/贵宾场景</div>
+  </div>
+
+  <h3>安全空间与最小尺寸</h3>
+  <div class="grid g2">
+    <div class="card center" style="min-height:280px;position:relative">
+      <div style="border:1px dashed var(--gold);padding:36px">
+        <svg style="width:120px;height:120px;color:var(--green);display:block"><use href="#mark"/></svg>
+      </div>
+      <span style="position:absolute;top:50%;left:calc(50% + 96px);transform:translateY(-50%);font-family:var(--lat);font-size:12px;color:var(--gold-deep)">X</span>
+      <span style="position:absolute;left:50%;top:calc(50% - 96px);transform:translateX(-50%);font-family:var(--lat);font-size:12px;color:var(--gold-deep)">X</span>
+    </div>
+    <div class="card">
+      <p><strong>安全空间</strong>：以标志中太阳的直径为基准单位 <strong>X</strong>。标志四周须保留至少 <strong>1X</strong> 的净空，任何文字、图形、版面边缘不得进入。</p>
+      <p style="margin-top:16px"><strong>最小尺寸</strong></p>
+      <table>
+        <tr><th>媒介</th><th>标志图形</th><th>完整组合</th></tr>
+        <tr><td>印刷</td><td>≥ 8 mm 高</td><td>≥ 18 mm 高</td></tr>
+        <tr><td>屏幕</td><td>≥ 24 px 高</td><td>≥ 64 px 高</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h3>禁用示例</h3>
+  <div class="grid g3">
+    <div class="card center" style="min-height:150px"><svg style="width:150px;height:86px;color:var(--green)" preserveAspectRatio="none" viewBox="0 0 200 200"><use href="#mark"/></svg></div>
+    <div class="card center" style="min-height:150px"><svg style="width:96px;height:96px;color:#B5443C"><use href="#mark-mono"/></svg></div>
+    <div class="card center" style="min-height:150px"><svg style="width:96px;height:96px;color:var(--green);transform:rotate(-24deg)"><use href="#mark"/></svg></div>
+    <div class="card center" style="min-height:150px"><svg style="width:96px;height:96px;color:var(--green);filter:drop-shadow(5px 6px 4px rgba(0,0,0,.45))"><use href="#mark"/></svg></div>
+    <div class="card center" style="min-height:150px;background:#7B8B6F"><svg style="width:96px;height:96px;color:var(--green)"><use href="#mark"/></svg></div>
+    <div class="card center" style="min-height:150px"><div style="display:flex;align-items:center;gap:4px"><svg style="width:52px;height:52px;color:var(--green)"><use href="#mark"/></svg><span style="font-family:var(--lat);font-size:26px;letter-spacing:2px">VEYRA</span></div></div>
+  </div>
+  <div class="grid g3" style="margin-top:22px">
+    <div class="cap" style="color:#B5443C">✕ 禁止拉伸变形</div>
+    <div class="cap" style="color:#B5443C">✕ 禁止更改标准色</div>
+    <div class="cap" style="color:#B5443C">✕ 禁止旋转</div>
+    <div class="cap" style="color:#B5443C">✕ 禁止添加阴影/特效</div>
+    <div class="cap" style="color:#B5443C">✕ 禁止低对比度背景</div>
+    <div class="cap" style="color:#B5443C">✕ 禁止破坏比例与间距关系</div>
+  </div>
+</section>
+<!-- ======= 03 色彩规范 ======= -->
+<section class="ch" id="c3">
+  <div class="eyebrow"><span class="no">03</span>Color</div>
+  <h2>色彩规范</h2>
+  <div class="h2en">标准色 · 色值 · 使用比例</div>
+
+  <div class="grid g2">
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="height:150px;background:var(--green)"></div>
+      <div style="padding:24px 28px">
+        <h3 style="margin:0 0 8px;font-size:18px">松石墨绿 Pine Green　<span style="font-family:var(--lat);font-size:12px;color:var(--slate)">主色</span></h3>
+        <table>
+          <tr><th>HEX</th><td>#1F3A34</td><th>RGB</th><td>31 · 58 · 52</td></tr>
+          <tr><th>CMYK</th><td>47 · 0 · 10 · 77（参考）</td><th>Pantone</th><td>5605 C（近似）</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="height:150px;background:var(--gold)"></div>
+      <div style="padding:24px 28px">
+        <h3 style="margin:0 0 8px;font-size:18px">曙金 Dawn Gold　<span style="font-family:var(--lat);font-size:12px;color:var(--slate)">点缀色</span></h3>
+        <table>
+          <tr><th>HEX</th><td>#C6A567</td><th>RGB</th><td>198 · 165 · 103</td></tr>
+          <tr><th>CMYK</th><td>0 · 17 · 48 · 22（参考）</td><th>Pantone</th><td>4515 C · 烫金 871 C</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="height:150px;background:var(--ivory);border-bottom:1px solid rgba(31,58,52,.08)"></div>
+      <div style="padding:24px 28px">
+        <h3 style="margin:0 0 8px;font-size:18px">霜白 Mist Ivory　<span style="font-family:var(--lat);font-size:12px;color:var(--slate)">底色</span></h3>
+        <table>
+          <tr><th>HEX</th><td>#F5F2EC</td><th>RGB</th><td>245 · 242 · 236</td></tr>
+          <tr><th>CMYK</th><td>0 · 1 · 4 · 4（参考）</td><th>Pantone</th><td>9224 C（近似）</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="height:150px;background:var(--slate)"></div>
+      <div style="padding:24px 28px">
+        <h3 style="margin:0 0 8px;font-size:18px">灰蓝 Slate　<span style="font-family:var(--lat);font-size:12px;color:var(--slate)">辅助文字色</span></h3>
+        <table>
+          <tr><th>HEX</th><td>#5B6B7D</td><th>RGB</th><td>91 · 107 · 125</td></tr>
+          <tr><th>CMYK</th><td>27 · 14 · 0 · 51（参考）</td><th>Pantone</th><td>5405 C（近似）</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <h3>使用比例</h3>
+  <div style="display:flex;height:52px;border-radius:2px;overflow:hidden">
+    <div style="flex:6;background:var(--ivory);border:1px solid rgba(31,58,52,.1)"></div>
+    <div style="flex:2.5;background:var(--green)"></div>
+    <div style="flex:1;background:var(--gold)"></div>
+    <div style="flex:.5;background:var(--slate)"></div>
+  </div>
+  <p class="note" style="margin-top:14px">霜白约 60% · 墨绿约 25% · 曙金约 10% · 灰蓝约 5%。金色是"一点光"，永远克制使用：大面积铺金即违背品牌气质。印刷以 Pantone 专色为准，屏幕以 HEX 为准；烫金工艺统一使用 Pantone 871 C 或哑光香槟金箔。</p>
+</section>
+
+<!-- ======= 04 字体规范 ======= -->
+<section class="ch" id="c4">
+  <div class="eyebrow"><span class="no">04</span>Typography</div>
+  <h2>字体规范</h2>
+  <div class="h2en">中西文搭配 · 层级 · 字距</div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="cap" style="text-align:left;margin:0 0 14px">中文 · 标题与礼仪性文字</div>
+      <p style="font-family:var(--serif);font-size:33px;letter-spacing:6px">维拉天空酒店</p>
+      <p style="font-family:var(--serif);font-size:17px;letter-spacing:4px;color:var(--slate);margin-top:6px">天际无遮 闹中独享</p>
+      <p class="note" style="margin-top:16px">思源黑体 Medium（Source Han Sans，SIL OFL 开源协议，免费商用）；备选：阿里巴巴普惠体（免费商用）。中性、商务、屏显与印刷皆宜；标题加宽字距（0.15–0.3 em），保留留白与仪式感。</p>
+    </div>
+    <div class="card">
+      <div class="cap" style="text-align:left;margin:0 0 14px">西文 · 品牌名与标语</div>
+      <p style="font-family:var(--lat);font-size:31px;letter-spacing:11px">VEYRA</p>
+      <p style="font-family:var(--lat);font-size:13px;letter-spacing:3px;font-style:italic;color:var(--slate);margin-top:8px">Where the Sky Opens, the City Rests</p>
+      <p class="note" style="margin-top:16px">Optima / Futura 类人文几何无衬线；可商用开源替代：Montserrat / Jost（SIL OFL）。全大写 + 宽字距（0.3–0.6 em）用于品牌名；标语用斜体小字。</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:26px">
+    <div class="cap" style="text-align:left;margin:0 0 14px">正文 · 功能性文字</div>
+    <p>中文正文使用思源黑体 Regular / 阿里巴巴普惠体 Regular（均免费商用；系统环境可回退苹方、微软雅黑），字号 14–16 px，行高 1.8–2.0；西文正文可用同族无衬线。正文永远服务于易读，不加字距、不用斜体。</p>
+  </div>
+</section>
+<!-- ======= 05 SLOGAN 应用场景 ======= -->
+<section class="ch" id="c5">
+  <div class="eyebrow"><span class="no">05</span>Slogan In Use</div>
+  <h2>标语应用场景</h2>
+  <div class="h2en">天际无遮，闹中独享 · Where the Sky Opens, the City Rests</div>
+  <p class="note" style="margin-bottom:44px">标语是品牌的"声音"。原则：一次只出现一种语言为主、另一种为辅；永远与留白同行；金色只给标语或标志其一，不同时铺金。</p>
+
+  <div class="grid g2">
+
+    <!-- website hero -->
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="background:#DCD6CA;padding:9px 14px;display:flex;gap:6px;align-items:center">
+        <span style="width:9px;height:9px;border-radius:50%;background:#c4beb2"></span><span style="width:9px;height:9px;border-radius:50%;background:#c4beb2"></span><span style="width:9px;height:9px;border-radius:50%;background:#c4beb2"></span>
+        <span style="font-family:var(--lat);font-size:10px;letter-spacing:1px;color:#8b8578;margin-left:8px">veyraskyhotel.com</span>
+      </div>
+      <div style="background:linear-gradient(180deg,var(--green-deep),var(--green));padding:64px 30px;text-align:center">
+        <svg style="width:64px;height:64px;color:var(--ivory)"><use href="#mark"/></svg>
+        <p style="font-family:var(--serif);font-size:23px;letter-spacing:8px;color:var(--ivory);margin-top:22px">天际无遮，闹中独享</p>
+        <p style="font-family:var(--lat);font-size:10px;letter-spacing:3px;color:var(--gold);font-style:italic;margin-top:10px">WHERE THE SKY OPENS, THE CITY RESTS</p>
+        <span style="display:inline-block;margin-top:26px;border:1px solid var(--gold);color:var(--gold);font-size:12px;letter-spacing:4px;padding:9px 30px">预订客房</span>
+      </div>
+      <div class="cap" style="padding:16px 0">官网首页 · 中文为主 / 英文为辅</div>
+    </div>
+
+    <!-- rooftop wall -->
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="background:var(--green-deep);height:262px;display:flex;align-items:center;justify-content:center;position:relative">
+        <div style="position:absolute;inset:14px;border:1px solid rgba(198,165,103,.25)"></div>
+        <div style="text-align:center">
+          <p style="font-family:var(--lat);font-size:19px;letter-spacing:5px;color:var(--gold);text-shadow:0 0 18px rgba(198,165,103,.55)">WHERE THE SKY OPENS,</p>
+          <p style="font-family:var(--lat);font-size:19px;letter-spacing:5px;color:var(--gold);text-shadow:0 0 18px rgba(198,165,103,.55);margin-top:8px">THE CITY RESTS</p>
+          <svg style="width:84px;height:20px;margin-top:20px;opacity:.9"><use href="#arc-orn"/></svg>
+        </div>
+      </div>
+      <div class="cap" style="padding:16px 0">顶层观景台 · 金属发光字墙（英文全大写）</div>
+    </div>
+
+    <!-- welcome card -->
+    <div class="card center" style="background:var(--mist);min-height:300px">
+      <div style="background:var(--ivory);width:250px;padding:34px 26px;text-align:center;box-shadow:0 10px 26px rgba(31,58,52,.14)">
+        <svg style="width:46px;height:46px;color:var(--green)"><use href="#mark"/></svg>
+        <p style="font-family:var(--serif);font-size:14px;letter-spacing:2px;margin-top:16px">亲爱的 林女士：</p>
+        <p style="font-size:12px;color:var(--slate);margin-top:10px;line-height:2">欢迎回到天空。<br>今晚的城市属于您，<br>而喧嚣不属于这里。</p>
+        <div style="width:34px;height:1px;background:var(--gold);margin:14px auto"></div>
+        <p style="font-family:var(--serif);font-size:11.5px;letter-spacing:3px;color:var(--gold-deep)">天际无遮 · 闹中独享</p>
+      </div>
+      <div class="cap" style="position:absolute"></div>
+    </div>
+
+    <!-- turndown card -->
+    <div class="card center" style="background:var(--mist);min-height:300px">
+      <div style="background:var(--green);width:250px;padding:34px 26px;text-align:center;box-shadow:0 10px 26px rgba(31,58,52,.3)">
+        <svg style="width:74px;height:18px"><use href="#arc-orn"/></svg>
+        <p style="font-family:var(--serif);font-size:15px;letter-spacing:4px;color:var(--ivory);margin-top:18px">城市已入睡</p>
+        <p style="font-size:11.5px;color:rgba(245,242,236,.75);margin-top:10px;line-height:2">明早六点五十二分，<br>太阳会准时回到您的窗前。</p>
+        <p style="font-family:var(--lat);font-size:9.5px;letter-spacing:2px;color:var(--gold);font-style:italic;margin-top:16px">THE CITY RESTS — SO SHOULD YOU</p>
+      </div>
+    </div>
+
+    <!-- pickup sign -->
+    <div class="card center" style="background:var(--mist);min-height:280px">
+      <div style="background:var(--ivory);width:290px;padding:26px;text-align:center;border:1px solid rgba(31,58,52,.12);box-shadow:0 8px 22px rgba(31,58,52,.12)">
+        <div style="display:flex;align-items:center;justify-content:center;gap:12px">
+          <svg style="width:30px;height:30px;color:var(--green)"><use href="#mark"/></svg>
+          <span style="font-family:var(--lat);font-size:13px;letter-spacing:5px">VEYRA</span>
+        </div>
+        <p style="font-family:var(--serif);font-size:23px;letter-spacing:3px;margin:16px 0 4px">王先生</p>
+        <p style="font-family:var(--lat);font-size:10px;letter-spacing:2px;color:var(--slate)">MR. WANG · SUITE 3208</p>
+        <div style="width:100%;height:1px;background:var(--gold);margin:14px 0 10px"></div>
+        <p style="font-family:var(--serif);font-size:11px;letter-spacing:3px;color:var(--gold-deep)">从此刻起，喧嚣与您无关</p>
+      </div>
+      <div class="cap" style="position:absolute"></div>
+    </div>
+
+    <!-- social post -->
+    <div class="card center" style="background:var(--mist);min-height:280px">
+      <div style="width:230px;aspect-ratio:1;background:linear-gradient(180deg,#2A4A42,var(--green-deep));display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 10px 26px rgba(31,58,52,.25)">
+        <svg style="width:44px;height:44px;color:var(--ivory)"><use href="#mark"/></svg>
+        <p style="font-family:var(--serif);font-size:14px;letter-spacing:5px;color:var(--ivory);margin-top:16px">今晚 · 云上见</p>
+        <p style="font-family:var(--lat);font-size:8.5px;letter-spacing:2px;color:var(--gold);margin-top:8px;font-style:italic">WHERE THE SKY OPENS, THE CITY RESTS</p>
+      </div>
+      <div class="cap" style="position:absolute"></div>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-top:24px">
+    <div class="cap">客房欢迎卡 · 标语作落款</div>
+    <div class="cap">夜床卡 · 标语的场景化变体</div>
+    <div class="cap">接机牌 · 标语衍生短句</div>
+    <div class="cap">社交媒体 · 方形贴文模板</div>
+  </div>
+
+  <h3>标语使用规则</h3>
+  <table>
+    <tr><th>规则</th><th>说明</th></tr>
+    <tr><td>双语层级</td><td>中文场景：中文标语为主、英文斜体小字为辅；涉外场景相反。两种语言字号比例约 2:1。</td></tr>
+    <tr><td>标点</td><td>中文用全角逗号或居中点（·）分隔上下句；英文用逗号，不加句号。</td></tr>
+    <tr><td>衍生短句</td><td>允许在服务触点使用标语的场景化变体（如"城市已入睡""从此刻起，喧嚣与您无关"），但正式对外物料只用标准标语。</td></tr>
+    <tr><td>禁止</td><td>不改写标准标语字词；不使用感叹号；不与促销价格信息同排。</td></tr>
+  </table>
+</section>
+<!-- ======= 06 应用系统 ======= -->
+<section class="ch" id="c6">
+  <div class="eyebrow"><span class="no">06</span>Applications</div>
+  <h2>应用系统</h2>
+  <div class="h2en">名片 · 房卡 · 信纸 · 标识</div>
+
+  <div class="grid g2">
+    <!-- business card front/back -->
+    <div class="card center" style="background:var(--mist);min-height:300px;gap:20px;flex-wrap:wrap">
+      <div style="width:214px;height:126px;background:var(--green);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(31,58,52,.25)">
+        <div class="lockup-v">
+          <svg style="width:44px;height:44px;color:var(--ivory)"><use href="#mark"/></svg>
+          <div style="font-family:var(--lat);font-size:10px;letter-spacing:5px;color:var(--ivory);margin-top:8px">VEYRA</div>
+        </div>
+      </div>
+      <div style="width:214px;height:126px;background:var(--ivory);padding:16px 18px;box-shadow:0 8px 20px rgba(31,58,52,.15)">
+        <p style="font-family:var(--serif);font-size:14px;letter-spacing:1px">陈晓远</p>
+        <p style="font-size:9px;color:var(--slate);margin-top:2px">总经理 General Manager</p>
+        <div style="width:24px;height:1px;background:var(--gold);margin:9px 0"></div>
+        <p style="font-size:8.5px;color:var(--slate);line-height:1.8">维拉天空酒店 Veyra Sky Hotel<br>+86 ··· ···· ····<br>x.chen@veyraskyhotel.com</p>
+      </div>
+    </div>
+
+    <!-- room key card -->
+    <div class="card center" style="background:var(--mist);min-height:300px;gap:20px;flex-wrap:wrap">
+      <div style="width:200px;height:126px;border-radius:8px;background:linear-gradient(150deg,#26463E,var(--green-deep));display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(31,58,52,.3)">
+        <svg style="width:42px;height:42px;color:var(--gold)"><use href="#mark-mono"/></svg>
+        <p style="font-family:var(--lat);font-size:8.5px;letter-spacing:4px;color:var(--gold);margin-top:10px">ROOM KEY</p>
+      </div>
+      <div style="width:200px;height:126px;border-radius:8px;background:var(--ivory);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(31,58,52,.15)">
+        <p style="font-family:var(--serif);font-size:12px;letter-spacing:3px;color:var(--gold-deep)">天际无遮 · 闹中独享</p>
+        <p style="font-size:8.5px;color:var(--slate);margin-top:8px">轻触房门感应区 · 请妥善保管</p>
+      </div>
+    </div>
+
+    <!-- letterhead -->
+    <div class="card center" style="background:var(--mist);min-height:320px">
+      <div style="width:232px;background:var(--ivory);padding:24px 22px 20px;box-shadow:0 10px 26px rgba(31,58,52,.15)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <svg style="width:34px;height:34px;color:var(--green)"><use href="#mark"/></svg>
+          <div style="text-align:right">
+            <p style="font-family:var(--lat);font-size:9px;letter-spacing:3px">VEYRA</p>
+            <p style="font-family:var(--serif);font-size:8px;letter-spacing:2px;color:var(--slate)">维拉天空酒店</p>
+          </div>
+        </div>
+        <div style="margin-top:18px">
+          <span style="display:block;height:5px;background:var(--mist);margin:7px 0;width:88%"></span>
+          <span style="display:block;height:5px;background:var(--mist);margin:7px 0;width:96%"></span>
+          <span style="display:block;height:5px;background:var(--mist);margin:7px 0;width:72%"></span>
+          <span style="display:block;height:5px;background:var(--mist);margin:7px 0;width:90%"></span>
+          <span style="display:block;height:5px;background:var(--mist);margin:7px 0;width:56%"></span>
+        </div>
+        <div style="margin-top:20px;border-top:1px solid var(--gold);padding-top:8px;display:flex;justify-content:space-between">
+          <span style="font-size:7px;color:var(--slate)">veyraskyhotel.com</span>
+          <span style="font-family:var(--serif);font-size:7px;letter-spacing:1px;color:var(--gold-deep)">天际无遮 · 闹中独享</span>
+        </div>
+      </div>
+      <div class="cap" style="position:absolute"></div>
+    </div>
+
+    <!-- door plate & wayfinding -->
+    <div class="card center" style="background:var(--mist);min-height:320px;gap:20px;flex-wrap:wrap">
+      <div style="width:210px;background:var(--green-deep);padding:16px 14px;box-shadow:0 8px 20px rgba(31,58,52,.3)">
+        <p style="font-size:10px;letter-spacing:2px;color:var(--ivory);border-bottom:1px solid rgba(198,165,103,.4);padding-bottom:8px">天空大堂 Sky Lobby　<span style="color:var(--gold)">↑</span></p>
+        <p style="font-size:10px;letter-spacing:2px;color:var(--ivory);border-bottom:1px solid rgba(198,165,103,.4);padding:8px 0">无遮酒廊 Open Bar　<span style="color:var(--gold)">→</span></p>
+        <p style="font-size:10px;letter-spacing:2px;color:var(--ivory);padding-top:8px">静园 The Court　<span style="color:var(--gold)">←</span></p>
+      </div>
+    </div>
+
+    <!-- room number sign -->
+    <div class="card center" style="background:var(--mist);min-height:280px">
+      <div style="width:256px;background:var(--green);padding:28px 30px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 10px 26px rgba(31,58,52,.3)">
+        <div>
+          <p style="font-family:var(--lat);font-size:32px;letter-spacing:4px;color:var(--gold)">3208</p>
+          <p style="font-size:8.5px;letter-spacing:3px;color:var(--ivory);margin-top:5px">SKY SUITE · 天空套房</p>
+          <svg style="width:72px;height:17px;margin-top:12px"><use href="#arc-orn"/></svg>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,9px);gap:7px">
+          <span style="width:9px;height:9px;border-radius:50%;background:var(--gold)"></span>
+          <span style="width:9px;height:9px;border-radius:50%;border:1px solid rgba(198,165,103,.5)"></span>
+          <span style="width:9px;height:9px;border-radius:50%;background:var(--gold)"></span>
+          <span style="width:9px;height:9px;border-radius:50%;background:var(--gold)"></span>
+          <span style="width:9px;height:9px;border-radius:50%;border:1px solid rgba(198,165,103,.5)"></span>
+          <span style="width:9px;height:9px;border-radius:50%;border:1px solid rgba(198,165,103,.5)"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- building illuminated sign -->
+    <div class="card center" style="background:linear-gradient(180deg,#0D1A26 55%,#16302C);min-height:280px;align-items:flex-end;padding:0;overflow:hidden;position:relative">
+      <span style="position:absolute;top:34px;left:20%;width:2px;height:2px;border-radius:50%;background:rgba(245,242,236,.6)"></span>
+      <span style="position:absolute;top:58px;right:24%;width:2px;height:2px;border-radius:50%;background:rgba(245,242,236,.45)"></span>
+      <span style="position:absolute;top:24px;right:38%;width:2px;height:2px;border-radius:50%;background:rgba(245,242,236,.35)"></span>
+      <div style="width:170px;height:132px;margin:0 auto;background:#0A1416;border:1px solid rgba(198,165,103,.14);border-bottom:none;position:relative;background-image:repeating-linear-gradient(0deg,transparent 0 14px,rgba(198,165,103,.07) 14px 17px)">
+        <div style="position:absolute;top:-64px;left:50%;transform:translateX(-50%);text-align:center;width:100%">
+          <svg style="width:30px;height:30px;color:var(--gold);filter:drop-shadow(0 0 9px rgba(198,165,103,.8))"><use href="#mark-mono"/></svg>
+          <p style="font-family:var(--lat);font-size:14px;letter-spacing:8px;text-indent:8px;color:var(--gold);text-shadow:0 0 14px rgba(198,165,103,.9);margin-top:4px">VEYRA</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:24px">
+    <div class="cap">名片 · 正/反</div>  </div>
+  <div class="grid g2" style="margin-top:24px">
+    <div class="cap">名片 · 正/反</div>
+    <div class="cap">房卡 · 正/反</div>
+    <div class="cap">信纸 · A4 版式缩样</div>
+    <div class="cap">楼层导视 · 空间指引系统</div>
+    <div class="cap">房号标识 · 金字压印 + 盲文点位</div>
+    <div class="cap">大楼发光字 · 楼顶金色发光标识（夜景）</div>
+  </div>
+</section>
+
+<!-- ======= 07 文件交付规范 ======= -->
+<section class="ch" id="c7">
+  <div class="eyebrow"><span class="no">07</span>Assets & Delivery</div>
+  <h2>文件交付规范</h2>
+  <div class="h2en">格式 · 命名 · 工艺</div>
+  <table>
+    <tr><th>类别</th><th>格式</th><th>说明</th></tr>
+    <tr><td>矢量源文件</td><td>AI · EPS · SVG</td><td>所有标志版本的母版；印刷与制作一律取用矢量</td></tr>
+    <tr><td>位图导出</td><td>PNG（透明底）</td><td>512 / 1024 / 2048 px 三档；仅用于屏幕排版</td></tr>
+    <tr><td>命名规则</td><td colspan="2">VEYRA_[版本]_[色彩]_[底色].ext　例：VEYRA_Mark_Green_OnIvory.svg · VEYRA_LockupV_Ivory_OnGreen.png</td></tr>
+    <tr><td>特殊工艺</td><td colspan="2">烫金用单色矢量版 + Pantone 871 C；织绣/压印用单色版，最小 12 mm；不得对位图做工艺输出</td></tr>
+  </table>
+  <div style="text-align:center;margin-top:80px">
+    <svg style="width:110px;height:26px"><use href="#arc-orn"/></svg>
+    <p style="font-family:var(--serif);font-size:13px;letter-spacing:5px;color:var(--slate);margin-top:16px">维拉天空酒店 · 品牌视觉识别系统 V1.0</p>
+    <p style="font-family:var(--lat);font-size:10px;letter-spacing:3px;color:var(--slate);margin-top:6px">VEYRA SKY HOTEL · BRAND IDENTITY GUIDELINES</p>
+  </div>
+</section>
+</body>
+</html>
