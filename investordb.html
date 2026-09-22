@@ -1,0 +1,808 @@
+<title>网约车投资看板</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --page: #f7f5ef;
+    --surface: #ffffff;
+    --surface-2: #f1efe6;
+    --ink: #16202b;
+    --ink-2: #545c63;
+    --muted: #8a8f94;
+    --grid: #e6e2d6;
+    --border: rgba(22,32,43,0.10);
+    --navy: #16233d;
+    --navy-soft: #e8ecf3;
+    --gold: #b8862f;
+    --gold-soft: #f6ecd9;
+    --teal: #1b7a68;
+    --teal-soft: #e1f0ec;
+    --good: #0ca30c;
+    --critical: #b3412e;
+    --warn-bg: #fbeee7;
+    --warn-border: #eccdb8;
+    --shadow: 0 1px 2px rgba(22,32,43,0.05), 0 10px 28px -14px rgba(22,32,43,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --page: #10151c;
+      --surface: #1a2129;
+      --surface-2: #202932;
+      --ink: #f3f1ea;
+      --ink-2: #c2c7cc;
+      --muted: #8a9096;
+      --grid: #2b333c;
+      --border: rgba(255,255,255,0.10);
+      --navy: #7f9cc9;
+      --navy-soft: #223049;
+      --gold: #d9a84f;
+      --gold-soft: #332a17;
+      --teal: #3fb99f;
+      --teal-soft: #17332c;
+      --good: #2fbf2f;
+      --critical: #e2705c;
+      --warn-bg: #2a1f18;
+      --warn-border: #4a3222;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -14px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --page: #10151c;
+    --surface: #1a2129;
+    --surface-2: #202932;
+    --ink: #f3f1ea;
+    --ink-2: #c2c7cc;
+    --muted: #8a9096;
+    --grid: #2b333c;
+    --border: rgba(255,255,255,0.10);
+    --navy: #7f9cc9;
+    --navy-soft: #223049;
+    --gold: #d9a84f;
+    --gold-soft: #332a17;
+    --teal: #3fb99f;
+    --teal-soft: #17332c;
+    --good: #2fbf2f;
+    --critical: #e2705c;
+    --warn-bg: #2a1f18;
+    --warn-border: #4a3222;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -14px rgba(0,0,0,0.6);
+  }
+  *{box-sizing:border-box;}
+  .stats>*, .prod-grid>*, .calc-grid>*, .week-summary>*, .channel-grid>*, .prod-card>*, .kv>*{ min-width:0; }
+  body{
+    background: var(--page); color: var(--ink);
+    font-family: "Manrope", system-ui, -apple-system, sans-serif;
+    padding-inline: 20px; padding-block: 30px 70px;
+    max-width: 1160px; margin: 0 auto;
+  }
+  h1,h2,h3{ font-family: "Source Serif 4", Georgia, serif; text-wrap: balance; margin:0; }
+  .num{ font-variant-numeric: tabular-nums; }
+
+  header.top{ margin-bottom: 26px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .eyebrow{ font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--gold); margin-bottom:8px; }
+  h1{ font-size: clamp(24px,3.6vw,32px); font-weight:600; color:var(--navy); }
+  :root[data-theme="dark"] h1, @media (prefers-color-scheme:dark){ h1{ color:var(--ink); } }
+  .sub{ color:var(--ink-2); font-size:14.5px; margin-top:8px; max-width:70ch; line-height:1.6; }
+  .sub b{ color:var(--ink); }
+
+  section{ margin-bottom:42px; }
+  .section-head{ margin-bottom:16px; }
+  .section-head .eyebrow-sm{ font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; font-weight:700; color:var(--teal); margin-bottom:4px; }
+  .section-head h2{ font-size:21px; font-weight:600; color:var(--navy); }
+  :root[data-theme="dark"] .section-head h2{ color:var(--ink); }
+  .section-head p{ font-size:13.5px; color:var(--ink-2); margin-top:6px; max-width:76ch; line-height:1.6; }
+
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:14px; box-shadow:var(--shadow); padding:22px; }
+
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  @media (max-width:860px){ .stats{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:480px){ .stats{ grid-template-columns:1fr; } }
+  .tile{ background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow); min-width:0; }
+  .tile .l1{ font-size:12px; color:var(--ink-2); font-weight:600; }
+  .tile .l2{ font-size:10.5px; color:var(--muted); margin-bottom:8px; }
+  .tile .v{ font-size:21px; font-weight:800; font-family:"Manrope",sans-serif; overflow-wrap:anywhere; }
+  .tile .v2{ font-size:11.5px; color:var(--muted); margin-top:4px; overflow-wrap:anywhere; }
+
+  table{ width:100%; border-collapse:collapse; font-size:13px; }
+  thead th{ text-align:right; font-size:11px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.03em; padding:8px 10px; border-bottom:1px solid var(--grid); white-space:nowrap; }
+  thead th:first-child, thead th:nth-child(2){ text-align:left; }
+  tbody td{ padding:9px 10px; border-bottom:1px solid var(--grid); text-align:right; white-space:nowrap; }
+  tbody td:first-child, tbody td:nth-child(2){ text-align:left; }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody tr.highlight{ background:var(--gold-soft); }
+  .table-scroll{ overflow-x:auto; }
+  tfoot td{ padding:10px; font-weight:800; border-top:2px solid var(--navy); }
+  .tag{ display:inline-flex; align-items:center; gap:4px; font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:99px; background:var(--gold-soft); color:var(--gold); }
+
+  .callout{ display:flex; gap:12px; border-radius:12px; padding:14px 16px; font-size:13px; line-height:1.6; }
+  .callout.info{ background:var(--teal-soft); border:1px solid var(--teal); color:var(--ink-2); }
+  .callout.warn{ background:var(--warn-bg); border:1px solid var(--warn-border); color:var(--ink-2); }
+  .callout b{ color:var(--ink); }
+  .callout .icon{ flex:none; font-size:17px; }
+
+  /* product card */
+  .prod-card{ display:grid; grid-template-columns: 1.1fr 1.4fr; gap:22px; align-items:stretch; }
+  @media (max-width:760px){ .prod-card{ grid-template-columns:1fr; } }
+  .prod-card .left{ background: linear-gradient(160deg, var(--navy-soft), var(--surface) 65%); border-radius:12px; padding:20px; border:1px solid var(--border); }
+  .prod-name{ font-size:19px; font-weight:600; font-family:"Source Serif 4",serif; color:var(--navy); }
+  :root[data-theme="dark"] .prod-name{ color:var(--ink); }
+  .prod-name-en{ font-size:11.5px; color:var(--muted); margin-bottom:14px; }
+  .kv{ display:flex; justify-content:space-between; gap:10px; font-size:13px; padding:6px 0; border-top:1px dashed var(--border); }
+  .kv:first-of-type{ border-top:none; }
+  .kv span{ flex:none; }
+  .kv b{ color:var(--ink); font-variant-numeric:tabular-nums; text-align:right; overflow-wrap:break-word; }
+  .mech-list{ font-size:13px; color:var(--ink-2); line-height:1.7; padding-left:18px; margin:0; }
+  .mech-list li{ margin-bottom:6px; }
+  .mech-list b{ color:var(--ink); }
+
+  /* calculator */
+  .calc-panel{ background:var(--surface); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow); padding:24px; }
+  .calc-grid{ display:grid; grid-template-columns: 1fr 1.3fr; gap:26px; }
+  @media (max-width:860px){ .calc-grid{ grid-template-columns:1fr; } }
+  .field{ margin-bottom:16px; }
+  .field label{ display:block; font-size:12px; font-weight:700; color:var(--ink-2); text-transform:uppercase; letter-spacing:.04em; margin-bottom:7px; }
+  select.inp, input.inp{
+    width:100%; font: inherit; font-size:15px; padding:10px 12px; border-radius:9px;
+    border:1px solid var(--border); background:var(--surface-2); color:var(--ink);
+  }
+  .qty-row{ display:flex; align-items:center; gap:8px; }
+  .qty-row button{
+    width:38px; height:38px; border-radius:9px; border:1px solid var(--border); background:var(--surface-2);
+    color:var(--ink); font-size:18px; font-weight:700; cursor:pointer; flex:none;
+  }
+  .qty-row button:hover{ background:var(--navy-soft); }
+  .qty-row input{ text-align:center; }
+  .preset-row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .preset-row button{
+    font: inherit; font-size:12.5px; font-weight:700; padding:6px 12px; border-radius:99px;
+    border:1px solid var(--border); background:var(--surface-2); color:var(--ink-2); cursor:pointer;
+  }
+  .preset-row button:hover, .preset-row button.active{ background:var(--gold); color:#fff; border-color:var(--gold); }
+
+  .plan-row{ display:flex; gap:8px; flex-wrap:wrap; }
+  .plan-row button{
+    font: inherit; font-size:13px; font-weight:700; padding:9px 16px; border-radius:9px;
+    border:1px solid var(--border); background:var(--surface-2); color:var(--ink-2); cursor:pointer; flex:1; min-width:110px;
+  }
+  .plan-row button:hover{ background:var(--navy-soft); }
+  .plan-row button.active{ background:var(--navy); color:#fff; border-color:var(--navy); }
+
+  .plan-compare{ margin-top:16px; }
+  .plan-compare table{ font-size:12.5px; }
+  .plan-compare thead th{ font-size:10.5px; }
+  .plan-compare td.hi{ font-weight:800; color:var(--navy); }
+  :root[data-theme="dark"] .plan-compare td.hi{ color:var(--ink); }
+
+  .result-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:16px; }
+  .result-tile{ background:var(--surface-2); border-radius:10px; padding:12px 14px; }
+  .result-tile .rl{ font-size:11px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.03em; }
+  .result-tile .rv{ font-size:18px; font-weight:800; margin-top:3px; }
+  .result-tile .rv2{ font-size:11px; color:var(--muted); margin-top:2px; }
+  .result-tile.hero{ background: var(--gold-soft); grid-column: span 2; }
+  .result-tile.hero .rv{ font-size:24px; color:var(--gold); }
+
+  .chart-wrap{ background:var(--surface-2); border-radius:12px; padding:16px; }
+  svg text{ font-family:"Manrope",sans-serif; fill:var(--ink-2); }
+  .axis-label{ font-size:10px; fill:var(--muted); }
+  .legend-row{ display:flex; gap:16px; font-size:11.5px; color:var(--ink-2); margin-bottom:6px; flex-wrap:wrap; }
+  .legend-row .dot{ width:9px; height:9px; border-radius:2px; display:inline-block; margin-right:5px; }
+
+  /* weekly source data */
+  .week-summary{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px; }
+  @media (max-width:860px){ .week-summary{ grid-template-columns:repeat(2,1fr); } }
+  .badge-empty{ display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:700; padding:2px 8px; border-radius:99px; background:var(--warn-bg); color:var(--critical); border:1px solid var(--warn-border); white-space:normal; }
+  .badge-none{ color:var(--muted); font-size:12px; }
+
+  /* exchange rate bar */
+  .rate-bar{ display:flex; flex-wrap:wrap; align-items:center; gap:10px 18px; background:var(--surface-2); border:1px solid var(--border); border-radius:12px; padding:12px 16px; margin-bottom:18px; }
+  .rate-bar .rate-item{ display:flex; align-items:center; gap:7px; font-size:13px; color:var(--ink-2); }
+  .rate-bar .rate-item input.inp{ width:108px; padding:6px 9px; font-size:13px; }
+  .rate-bar button.rate-reset{ font:inherit; font-size:12px; font-weight:700; padding:7px 13px; border-radius:99px; border:1px solid var(--border); background:var(--surface); color:var(--ink-2); cursor:pointer; }
+  .rate-bar button.rate-reset:hover{ background:var(--navy-soft); }
+  .rate-bar .rate-hint{ flex-basis:100%; font-size:11px; color:var(--muted); }
+
+  /* growth outlook */
+  .channel-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  @media (max-width:860px){ .channel-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:480px){ .channel-grid{ grid-template-columns:1fr; } }
+  .channel-card{ background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px; box-shadow:var(--shadow); }
+  .channel-card .ico{ font-size:20px; margin-bottom:8px; }
+  .channel-card h4{ font-size:14px; font-weight:700; color:var(--navy); margin-bottom:6px; font-family:"Source Serif 4",serif; }
+  :root[data-theme="dark"] .channel-card h4{ color:var(--ink); }
+  .channel-card p{ font-size:12.5px; color:var(--ink-2); line-height:1.6; margin:0; }
+
+  footer{ margin-top:46px; padding-top:18px; border-top:1px solid var(--border); font-size:11.5px; color:var(--muted); line-height:1.75; }
+  footer b{ color:var(--ink-2); }
+</style>
+
+<header class="top">
+  <div class="eyebrow">ACE TRAVEL · 投资人专享</div>
+  <h1>网约车车队经营数据与投资方案</h1>
+  <div class="sub">本页面基于司机业绩表逐班原始流水的<b>真实经营数据</b>编制，供投资人了解车队实际运营表现及本轮投资方案的收益测算。所有假设与数据来源均在页面内如实披露。</div>
+</header>
+
+<section id="statsSection">
+  <div class="section-head">
+    <div class="eyebrow-sm">Fleet performance</div>
+    <h2>车队真实经营情况</h2>
+    <p>以下为公司目前已实际运营车辆的真实数据统计，未做任何美化处理，是本轮投资方案收益测算的事实依据。</p>
+  </div>
+  <div class="stats" id="statTiles"></div>
+</section>
+
+<section id="detailSection">
+  <div class="section-head">
+    <div class="eyebrow-sm">Real operating data</div>
+    <h2>lingbox 车队单车经营明细（2026年7-9月）</h2>
+    <p>本轮投资方案的车型（五菱宏光BingoS）暂无自身实测数据，参照其中表现最优的 <b>7491号车</b> 真实数据作为收益测算依据（已标注）。</p>
+  </div>
+  <div class="card table-scroll">
+    <table id="detailTable">
+      <thead><tr><th>车牌</th><th>数据区间</th><th>月均营收</th><th>月均运营支出</th><th>车贷</th><th>底薪+顶班</th><th>月度净利润</th></tr></thead>
+      <tbody id="detailTbody"></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="monthSourceSection">
+  <div class="section-head">
+    <div class="eyebrow-sm">Source data · monthly detail</div>
+    <h2>数据来源明细：一个月真实经营记录</h2>
+    <p>上方月度数据由逐班原始流水汇总而来。以下展示 <b>7489/7490/7491/7492 四台车完整一个月（2026年8月1日-8月31日，共31天/248个班次）</b> 的逐日营收、成本与利润统计与图表，包含空班及个别亏损日情况，供投资人核实数据来源的真实性；下方明细表为便于阅读，仅列出部分代表性日期，完整31天数据均已计入上方统计与图表。</p>
+  </div>
+  <div class="week-summary" id="monthSummary"></div>
+  <div class="card">
+    <div class="legend-row">
+      <span><span class="dot" style="background:var(--muted)"></span>运营支出+固定成本分摊（车贷/保险/底薪）</span>
+      <span><span class="dot" style="background:var(--navy)"></span>净利润</span>
+      <span><span class="dot" style="background:var(--critical)"></span>当日亏损（成本超过营收）</span>
+      <span><span class="dot" style="background:var(--critical)"></span>●当日出现空班</span>
+    </div>
+    <div class="chart-wrap" style="background:transparent;padding:6px 0 0;">
+      <svg id="monthChart" width="100%" viewBox="0 0 640 250" role="img" aria-label="一个月4台车合计每日营收成本利润"></svg>
+    </div>
+  </div>
+  <div class="card table-scroll" style="margin-top:14px;">
+    <table id="monthTable">
+      <thead><tr><th>日期</th><th>星期</th><th>合计营收</th><th>运营支出</th><th>固定成本分摊</th><th>合计净利润</th><th>空班情况</th></tr></thead>
+      <tbody id="monthTbody"></tbody>
+    </table>
+    <div style="font-size:11px;color:var(--muted);padding:8px 10px 2px;">表格仅展示8月部分代表性日期（约每3天抽取1天），完整31天逐日数据已计入上方统计与图表，非选择性展示。</div>
+  </div>
+  <div class="callout warn" style="margin-top:14px;"><span class="icon">⚠️</span><div>本月4台车共248个班次中出现<b>9次空班</b>（约3.6%），另有部分班次因当日成本（含固定成本分摊）超过营收而出现单日亏损（如表中8/13、8/22所示）。空班与亏损日仍需承担车贷/保险/底薪等固定成本分摊，是当前影响单车利润波动的主要因素，也是下一节成本控制的重点方向。整月数据自然存在波动，实际结果会围绕月度平均值上下起伏。</div></div>
+</section>
+
+<section id="productSection">
+  <div class="section-head">
+    <div class="eyebrow-sm">Investment plan</div>
+    <h2>本轮投资方案：五菱宏光 BingoS（单车 · 首付杠杆）</h2>
+    <p>投资人出资仅覆盖首付款与落地杂费，公司以车辆金融杠杆落地整车；第一年优先回本，第二年起在两种长期分成方案中任选其一。</p>
+  </div>
+  <div class="card prod-card">
+    <div class="left">
+      <div class="prod-name">五菱宏光 BingoS</div>
+      <div class="prod-name-en">Wuling Hongguang BingoS</div>
+      <div class="kv"><span>单份出资额</span><b class="num">¥60,000</b></div>
+      <div class="kv"><span>可配置车辆</span><b class="num">1 台</b></div>
+      <div class="kv"><span>出资构成</span><b style="font-weight:600;font-size:12px;text-align:right;">车款40%首付 + GPS/车辆管理设备 + 软装 + 保险上牌等杂费</b></div>
+      <div class="kv"><span>单车参照月利润</span><b class="num" id="prodCardProfit">≈¥4,587 / $685</b></div>
+      <div class="kv"><span>四台车平均月利润（参考）</span><b class="num" id="prodCardAvgProfit" style="font-size:12px;color:var(--ink-2);">≈¥4,028 / $601</b></div>
+      <div class="kv"><span>优先回本目标</span><b class="num">第一年内（12个月）</b></div>
+      <div class="kv"><span>回本后分成</span><b class="num">方案A / 方案B 二选一</b></div>
+      <div class="kv"><span>数据参照</span><b style="font-weight:600;font-size:12px;">lingbox·7491（四台车中表现最优）真实数据</b></div>
+    </div>
+    <div>
+      <h3 style="font-size:15px;margin-bottom:10px;color:var(--navy);">收益机制</h3>
+      <ol class="mech-list">
+        <li><b>优先回本期（第1年/12个月）</b>：车辆经营净利润100%优先分配给投资人，用于抵扣¥60,000出资本金；</li>
+        <li><b>公司现金兜底</b>：按当前真实数据测算，自然回本约需13.1个月，第12个月末缺口约¥4,957/份（约为出资额的8.3%）；若第12个月末未能自然回本，差额由公司现金兜底补足，确保投资人第一年内100%收回本金；</li>
+        <li><b>方案A（第2-3年，共24个月）</b>：本金视为已全额收回，此后车辆经营净利润按投资人40%／运营方60%持续分成，3年期满；</li>
+        <li><b>方案B（第2-4年，共36个月）</b>：本金视为已全额收回，此后车辆经营净利润按投资人30%／运营方70%持续分成，4年期满；</li>
+        <li><b>如何选择</b>：方案A分成比例更高、周期更短，单利年化收益更高；方案B周期更长、比例更低，但持续分成时间更久、投资人累计总现金流更高。两方案可在下方计算器中实时切换比较；</li>
+        <li><b>持续优化</b>：公司将持续优化车队运营管理，单车月度收益有望逐步提升，此测算基于当前真实数据、未计入未来改善空间。</li>
+      </ol>
+      <div class="plan-compare" id="planCompare"></div>
+    </div>
+  </div>
+</section>
+
+<section id="calcSection">
+  <div class="section-head">
+    <div class="eyebrow-sm">Live calculator</div>
+    <h2>实时收益测算器</h2>
+    <p>选择车型、投资份数与长期分成方案，右侧结果与现金流曲线会实时更新。当前仅"五菱宏光BingoS"一种车型可选，后续新增车型将自动出现在下方选项中。</p>
+  </div>
+  <div class="rate-bar">
+    <div class="rate-item">
+      <span>1 美元 US$ =</span>
+      <input class="inp" type="number" id="rateLakInput" min="1" step="0.1" value="22415.7">
+      <span>基普 LAK</span>
+    </div>
+    <div class="rate-item">
+      <span>1 美元 US$ =</span>
+      <input class="inp" type="number" id="rateCnyInput" min="0.1" step="0.01" value="6.7">
+      <span>人民币 CNY</span>
+    </div>
+    <button type="button" class="rate-reset" id="rateReset">恢复默认汇率</button>
+    <div class="rate-hint">默认汇率参考2026-09-18市场价；可手动修改，页面内所有基普(LAK)换算美元/人民币的结果将实时同步更新。</div>
+  </div>
+  <div class="calc-panel">
+    <div class="calc-grid">
+      <div>
+        <div class="field">
+          <label>车型 Vehicle type</label>
+          <select class="inp" id="productSelect"></select>
+        </div>
+        <div class="field">
+          <label>投资份数 Units</label>
+          <div class="qty-row">
+            <button id="qtyMinus" type="button" aria-label="减少">－</button>
+            <input class="inp" type="number" id="qtyInput" min="1" step="1" value="1">
+            <button id="qtyPlus" type="button" aria-label="增加">＋</button>
+          </div>
+          <div class="preset-row" id="presetRow"></div>
+        </div>
+        <div class="field">
+          <label>长期分成方案 Payout plan</label>
+          <div class="plan-row" id="planRow"></div>
+          <div id="planDesc" style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:8px;"></div>
+        </div>
+        <div id="productMeta" style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:6px;"></div>
+      </div>
+      <div>
+        <div class="result-grid" id="resultGrid"></div>
+        <div class="chart-wrap">
+          <div class="legend-row">
+            <span><span class="dot" style="background:var(--gold)"></span>投资人累计现金流</span>
+            <span><span class="dot" style="background:var(--muted)"></span>出资本金线</span>
+            <span><span class="dot" style="background:var(--teal)"></span>运营方累计分成</span>
+          </div>
+          <svg id="cashflowChart" width="100%" viewBox="0 0 620 260" role="img" aria-label="投资人现金流曲线"></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="growthSection">
+  <div class="section-head">
+    <div class="eyebrow-sm">Growth outlook · not yet in the model</div>
+    <h2>未来增长空间与成本优化</h2>
+    <p>以上全部收益测算均基于当前真实历史数据，<b>未计入以下新增订单渠道带来的增量</b>。这些渠道正在拓展中，一旦形成稳定流水，公司将以实际数据重新核算并告知投资人——这是本方案测算之外的额外上行空间，不构成任何收益承诺。</p>
+  </div>
+  <div class="channel-grid">
+    <div class="channel-card"><div class="ico">🚌</div><h4>万象—万荣城际大单</h4><p>城际定点定班大单，单均金额高、里程与时段稳定，可填补跨城长途运力的空闲时段，直接减少空班。</p></div>
+    <div class="channel-card"><div class="ico">🏢</div><h4>线下接送站</h4><p>实体接送站点直接获客，独立于线上派单体系，为车队带来线上渠道之外的稳定客源增量。</p></div>
+    <div class="channel-card"><div class="ico">✈️</div><h4>线上接送机</h4><p>提前预约的接送机订单多集中在清晨/深夜等传统空班高发时段，有助于把闲置班次转化为有效营收。</p></div>
+    <div class="channel-card"><div class="ico">🗺️</div><h4>OTA 一日游</h4><p>OTA平台整日包车订单一单锁定全天运力，从源头上降低空班率，提升单车日均产出的稳定性。</p></div>
+  </div>
+  <div class="callout info" style="margin-top:14px;"><span class="icon">ℹ️</span><div><b>成本控制方向：</b>结合前面一周的空班数据可见，车贷/保险/底薪等固定成本按日刚性分摊，空班当天利润明显下滑；随着上述新渠道订单量提升、排班调度持续优化，空班率有望从当前约7%的水平逐步下降，单车月度净利润存在较为确定的提升空间——但本方案12个月回本与3年分成的测算保持保守口径，均未计入这部分潜在增量。</div></div>
+</section>
+
+<section id="riskSection">
+  <div class="section-head">
+    <div class="eyebrow-sm">Disclosure</div>
+    <h2>风险提示与数据来源</h2>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;gap:12px;">
+    <div class="callout info"><span class="icon">ℹ️</span><div>数据来源：司机业绩表逐班原始流水（2025年12月-2026年9月）。lingbox取7489/7490/7491/7492车真实数据，本方案测算<b>参照其中经营表现最优的7491号车</b>（2026年7-9月），而非四台车平均值；7489-7492四台车实际平均月利润约低于7491号车12%-14%，已在"本轮投资方案"与"实时收益测算器"中同步列出供对比参考。</div></div>
+    <div class="callout warn"><span class="icon">⚠️</span><div><b>五菱宏光BingoS（本轮投资车型）暂无自身实际运营数据</b>，本方案借用lingbox车队中表现最优车辆的真实数据作为测算参照，两者并非同一车型，实际投入运营后的收益可能高于或低于本测算，公司将在BingoS实际运营后以自身数据重新核算并告知投资人。</div></div>
+    <div class="callout warn"><span class="icon">⚠️</span><div>投资人出资的¥60,000为首付款+落地杂费（车款40%首付、GPS/车辆管理设备、贴膜脚垫等软装、保险上牌等），车辆本身通过公司的金融/贷款安排落地；若落地方式或时间与计划存在差异，回本周期与分成金额将相应调整并告知投资人。</div></div>
+    <div class="callout warn"><span class="icon">⚠️</span><div>第一年内100%回本承诺以公司现金流和信用为支撑；测算已采用真实数据的当前水平，未来实际净利润会受汇率、油电价格、司机排班、季节性需求等因素影响而波动。方案A、方案B为投资人自选的长期分成方式，选定后按合同约定执行，不可在合作期内任意更改。</div></div>
+  </div>
+</section>
+
+<footer>
+  ACE TRAVEL · 本页面为投资意向参考材料，不构成正式要约；具体合作条款以双方签署的书面合同为准。<br>
+  汇率参考2026-09-18：1美元≈22,415.7 LAK≈6.7元人民币，仅供换算参考。
+</footer>
+
+<script id="data-detail" type="application/json">[{"plate":"7489","monthly_rev":41574491,"monthly_opex":7998724,"loan":10235000,"salary_sub":9600000,"monthly_profit":13104074,"window":"2026-07-19~2026-09-14"},{"plate":"7490","monthly_rev":42698457,"monthly_opex":9002069,"loan":10235000,"salary_sub":9600000,"monthly_profit":13224695,"window":"2026-07-19~2026-09-14"},{"plate":"7491","monthly_rev":45311302,"monthly_opex":8993586,"loan":10235000,"salary_sub":10100000,"monthly_profit":15346023,"window":"2026-07-19~2026-09-14","best":true},{"plate":"7492","monthly_rev":40558552,"monthly_opex":8858560,"loan":10235000,"salary_sub":8600000,"monthly_profit":12228298,"window":"2026-07-19~2026-09-14"}]</script>
+<script id="data-products" type="application/json">[{"id":"bingoS","name":"五菱宏光 BingoS","nameEn":"Wuling Hongguang BingoS","unitPriceCNY":60000,"carsPerUnit":1,"monthlyProfitPerCarLAK":15346023,"refNote":"参照lingbox·7491真实数据（2026年7-9月）","structureNote":"首付40%车款 + GPS/车辆管理设备 + 贴膜脚垫等软装 + 保险上牌等必要杂费，合计约¥60,000/台","plans":[{"id":"A","label":"方案A","desc":"第2-3年（24个月）投资人40% / 运营方60%","investorShare":0.4,"payoutYears":2,"totalMonths":36},{"id":"B","label":"方案B","desc":"第2-4年（36个月）投资人30% / 运营方70%","investorShare":0.3,"payoutYears":3,"totalMonths":48}]}]</script>
+<script id="data-month" type="application/json">[{"date":"2026-08-01","weekday":"周六","total_revenue":6503500,"total_opex":565500,"total_fixed":2712892,"total_profit":3225108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-02","weekday":"周日","total_revenue":5644000,"total_opex":1315000,"total_fixed":2712892,"total_profit":1616108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-03","weekday":"周一","total_revenue":6545000,"total_opex":1798500,"total_fixed":2712892,"total_profit":2033608,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-04","weekday":"周二","total_revenue":5964500,"total_opex":253750,"total_fixed":2712892,"total_profit":2997858,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-05","weekday":"周三","total_revenue":4012500,"total_opex":767750,"total_fixed":2712892,"total_profit":531858,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-06","weekday":"周四","total_revenue":2605000,"total_opex":900000,"total_fixed":2712892,"total_profit":-1007892,"empty_count":1,"empty_desc":"7490晚班"},{"date":"2026-08-07","weekday":"周五","total_revenue":4606000,"total_opex":935000,"total_fixed":2712892,"total_profit":958108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-08","weekday":"周六","total_revenue":3815000,"total_opex":1410000,"total_fixed":2712892,"total_profit":-307892,"empty_count":1,"empty_desc":"7492白班"},{"date":"2026-08-09","weekday":"周日","total_revenue":5131000,"total_opex":2108000,"total_fixed":2712892,"total_profit":310108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-10","weekday":"周一","total_revenue":4886000,"total_opex":700000,"total_fixed":2712892,"total_profit":1473108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-11","weekday":"周二","total_revenue":5521000,"total_opex":1010000,"total_fixed":2712892,"total_profit":1798108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-12","weekday":"周三","total_revenue":5031000,"total_opex":1325000,"total_fixed":2712892,"total_profit":993108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-13","weekday":"周四","total_revenue":3602000,"total_opex":590000,"total_fixed":2712892,"total_profit":299108,"empty_count":2,"empty_desc":"7489白班、7489晚班"},{"date":"2026-08-14","weekday":"周五","total_revenue":5279000,"total_opex":752000,"total_fixed":2712892,"total_profit":1814108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-15","weekday":"周六","total_revenue":4872000,"total_opex":980500,"total_fixed":2712892,"total_profit":1178608,"empty_count":1,"empty_desc":"7490晚班"},{"date":"2026-08-16","weekday":"周日","total_revenue":5588000,"total_opex":2012500,"total_fixed":2712892,"total_profit":862608,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-17","weekday":"周一","total_revenue":4370000,"total_opex":1200000,"total_fixed":2712892,"total_profit":457108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-18","weekday":"周二","total_revenue":4357000,"total_opex":510000,"total_fixed":2712892,"total_profit":1134108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-19","weekday":"周三","total_revenue":5505000,"total_opex":969000,"total_fixed":2712892,"total_profit":1823108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-20","weekday":"周四","total_revenue":3853000,"total_opex":2230000,"total_fixed":2712892,"total_profit":-1089892,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-21","weekday":"周五","total_revenue":2746000,"total_opex":1650000,"total_fixed":2712892,"total_profit":-1616892,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-22","weekday":"周六","total_revenue":4519150,"total_opex":260000,"total_fixed":2712892,"total_profit":1546258,"empty_count":1,"empty_desc":"7490白班"},{"date":"2026-08-23","weekday":"周日","total_revenue":4532700,"total_opex":480000,"total_fixed":2712892,"total_profit":1339808,"empty_count":1,"empty_desc":"7492白班"},{"date":"2026-08-24","weekday":"周一","total_revenue":4380350,"total_opex":1415000,"total_fixed":2712892,"total_profit":252458,"empty_count":2,"empty_desc":"7491晚班、7492晚班"},{"date":"2026-08-25","weekday":"周二","total_revenue":6197050,"total_opex":2680525,"total_fixed":2712892,"total_profit":803633,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-26","weekday":"周三","total_revenue":5966750,"total_opex":919775,"total_fixed":2712892,"total_profit":2334083,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-27","weekday":"周四","total_revenue":6621450,"total_opex":1900000,"total_fixed":2712892,"total_profit":2008558,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-28","weekday":"周五","total_revenue":7730650,"total_opex":2311625,"total_fixed":2712892,"total_profit":2706133,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-29","weekday":"周六","total_revenue":7235300,"total_opex":1056000,"total_fixed":2712892,"total_profit":3466408,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-30","weekday":"周日","total_revenue":7267100,"total_opex":2190500,"total_fixed":2712892,"total_profit":2363708,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-31","weekday":"周一","total_revenue":6779350,"total_opex":1385500,"total_fixed":2712892,"total_profit":2680958,"empty_count":0,"empty_desc":"—"}]</script>
+<script id="data-month-sample" type="application/json">[{"date":"2026-08-01","weekday":"周六","total_revenue":6503500,"total_opex":565500,"total_fixed":2712892,"total_profit":3225108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-04","weekday":"周二","total_revenue":5964500,"total_opex":253750,"total_fixed":2712892,"total_profit":2997858,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-07","weekday":"周五","total_revenue":4606000,"total_opex":935000,"total_fixed":2712892,"total_profit":958108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-10","weekday":"周一","total_revenue":4886000,"total_opex":700000,"total_fixed":2712892,"total_profit":1473108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-13","weekday":"周四","total_revenue":3602000,"total_opex":590000,"total_fixed":2712892,"total_profit":299108,"empty_count":2,"empty_desc":"7489白班、7489晚班"},{"date":"2026-08-16","weekday":"周日","total_revenue":5588000,"total_opex":2012500,"total_fixed":2712892,"total_profit":862608,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-19","weekday":"周三","total_revenue":5505000,"total_opex":969000,"total_fixed":2712892,"total_profit":1823108,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-22","weekday":"周六","total_revenue":4519150,"total_opex":260000,"total_fixed":2712892,"total_profit":1546258,"empty_count":1,"empty_desc":"7490白班"},{"date":"2026-08-25","weekday":"周二","total_revenue":6197050,"total_opex":2680525,"total_fixed":2712892,"total_profit":803633,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-28","weekday":"周五","total_revenue":7730650,"total_opex":2311625,"total_fixed":2712892,"total_profit":2706133,"empty_count":0,"empty_desc":"—"},{"date":"2026-08-31","weekday":"周一","total_revenue":6779350,"total_opex":1385500,"total_fixed":2712892,"total_profit":2680958,"empty_count":0,"empty_desc":"—"}]</script>
+
+<script>
+(function(){
+  "use strict";
+  const DETAIL = JSON.parse(document.getElementById('data-detail').textContent);
+  const PRODUCTS = JSON.parse(document.getElementById('data-products').textContent);
+  const MONTH = JSON.parse(document.getElementById('data-month').textContent);
+  const MONTH_SAMPLE = JSON.parse(document.getElementById('data-month-sample').textContent);
+  const RATE_LAK_DEFAULT = 22415.7, RATE_CNY_DEFAULT = 6.7;
+  let RATE_LAK_PER_USD = RATE_LAK_DEFAULT;
+  let RATE_CNY_PER_USD = RATE_CNY_DEFAULT;
+
+  function fmtUSD(v){ return "$" + Math.round(v).toLocaleString('en-US'); }
+  function fmtCNY(v){ return "¥" + Math.round(v).toLocaleString('en-US'); }
+  function fmtLAK(v){ return "₭" + Math.round(v).toLocaleString('en-US'); }
+  function lakToUSD(v){ return v/RATE_LAK_PER_USD; }
+  function carMonthlyUSD(product){ return product.monthlyProfitPerCarLAK/RATE_LAK_PER_USD; }
+  function carMonthlyCNY(product){ return carMonthlyUSD(product)*RATE_CNY_PER_USD; }
+
+  // ---------------- fleet stat tiles ----------------
+  function renderStats(){
+    const totalRev = DETAIL.reduce((s,r)=>s+r.monthly_rev,0);
+    const totalProfit = DETAIL.reduce((s,r)=>s+r.monthly_profit,0);
+    const best = DETAIL.find(r=>r.best);
+    const bestProfitUSD = lakToUSD(best.monthly_profit);
+    const el = document.getElementById('statTiles');
+    el.innerHTML = `
+      <div class="tile">
+        <div class="l1">已运营车辆样本</div><div class="l2">Vehicles with real data</div>
+        <div class="v">${DETAIL.length} 台</div>
+        <div class="v2">lingbox系列，2026年7-9月连续运营</div>
+      </div>
+      <div class="tile">
+        <div class="l1">4台合计月均营收</div><div class="l2">Combined monthly revenue</div>
+        <div class="v num">${fmtLAK(totalRev)}</div>
+        <div class="v2 num">≈${fmtUSD(lakToUSD(totalRev))} / ≈${fmtCNY(lakToUSD(totalRev)*RATE_CNY_PER_USD)}</div>
+      </div>
+      <div class="tile">
+        <div class="l1">4台合计月度净利润</div><div class="l2">Combined monthly net profit</div>
+        <div class="v num">${fmtLAK(totalProfit)}</div>
+        <div class="v2 num">≈${fmtUSD(lakToUSD(totalProfit))}（已扣除车贷/保险/底薪等全部成本）</div>
+      </div>
+      <div class="tile">
+        <div class="l1">表现最优单车（本方案参照）</div><div class="l2">Best performer — plan reference</div>
+        <div class="v num">${best.plate} 号车</div>
+        <div class="v2 num">月净利润 ≈${fmtCNY(bestProfitUSD*RATE_CNY_PER_USD)} / ${fmtUSD(bestProfitUSD)}</div>
+      </div>`;
+  }
+
+  // ---------------- detail table ----------------
+  function renderDetail(){
+    const tbody = document.getElementById('detailTbody');
+    tbody.innerHTML = DETAIL.map(r=>`
+      <tr class="${r.best?'highlight':''}">
+        <td><b>${r.plate}</b>${r.best?' <span class="tag">本方案参照</span>':''}</td>
+        <td style="font-size:11.5px;color:var(--ink-2);">${r.window}</td>
+        <td class="num">${fmtLAK(r.monthly_rev)}</td>
+        <td class="num">${fmtLAK(r.monthly_opex)}</td>
+        <td class="num">${fmtLAK(r.loan)}</td>
+        <td class="num">${fmtLAK(r.salary_sub)}</td>
+        <td class="num" style="font-weight:800;">${fmtLAK(r.monthly_profit)}</td>
+      </tr>`).join('');
+  }
+
+  // ---------------- monthly source data ----------------
+  function renderMonthSummary(){
+    const rev = MONTH.reduce((s,d)=>s+d.total_revenue,0);
+    const profit = MONTH.reduce((s,d)=>s+d.total_profit,0);
+    const empties = MONTH.reduce((s,d)=>s+d.empty_count,0);
+    const shifts = MONTH.length*8; // 4 cars x 2 shifts
+    const el = document.getElementById('monthSummary');
+    el.innerHTML = `
+      <div class="tile">
+        <div class="l1">统计区间</div><div class="l2">Sample window</div>
+        <div class="v" style="font-size:16px;">2026-08-01 ~ 08-31</div>
+        <div class="v2">整月31天 · 4台车 · ${shifts}个班次</div>
+      </div>
+      <div class="tile">
+        <div class="l1">当月合计营收</div><div class="l2">Monthly total revenue</div>
+        <div class="v num">${fmtLAK(rev)}</div>
+        <div class="v2 num">≈${fmtUSD(lakToUSD(rev))}</div>
+      </div>
+      <div class="tile">
+        <div class="l1">当月合计净利润</div><div class="l2">Monthly total net profit</div>
+        <div class="v num">${fmtLAK(profit)}</div>
+        <div class="v2 num">≈${fmtUSD(lakToUSD(profit))}</div>
+      </div>
+      <div class="tile">
+        <div class="l1">空班次数</div><div class="l2">Empty shifts</div>
+        <div class="v num">${empties} 次 / ${shifts}班</div>
+        <div class="v2 num">占比约 ${(empties/shifts*100).toFixed(1)}%</div>
+      </div>`;
+  }
+
+  function renderMonthTable(){
+    const tbody = document.getElementById('monthTbody');
+    tbody.innerHTML = MONTH_SAMPLE.map(d=>`
+      <tr>
+        <td><b>${d.date.slice(5)}</b></td>
+        <td>${d.weekday}</td>
+        <td class="num">${fmtLAK(d.total_revenue)}</td>
+        <td class="num">${fmtLAK(d.total_opex)}</td>
+        <td class="num">${fmtLAK(d.total_fixed)}</td>
+        <td class="num" style="font-weight:800;${d.total_profit<0?'color:var(--critical);':''}">${fmtLAK(d.total_profit)}</td>
+        <td>${d.empty_count>0 ? `<span class="badge-empty">⚠ ${d.empty_desc}</span>` : '<span class="badge-none">—</span>'}</td>
+      </tr>`).join('');
+  }
+
+  function drawMonthChart(){
+    const svg = document.getElementById('monthChart');
+    const W=640, H=250, margin={top:16,right:16,bottom:34,left:64};
+    const plotW=W-margin.left-margin.right, plotH=H-margin.top-margin.bottom;
+    // bar top = max(revenue, cost) for every day so shortfalls are visible above the revenue line
+    const maxV = Math.max(...MONTH.map(d=>Math.max(d.total_revenue, d.total_opex+d.total_fixed)))*1.12;
+    const n = MONTH.length;
+    const bw = plotW/n*0.62;
+    const xAt = i => margin.left + (i+0.5)*(plotW/n);
+    const yAt = v => margin.top + plotH - (v/maxV)*plotH;
+
+    let grid='';
+    const steps=4;
+    for(let i=0;i<=steps;i++){
+      const gv=maxV*i/steps, gy=yAt(gv);
+      grid+=`<line x1="${margin.left}" x2="${W-margin.right}" y1="${gy}" y2="${gy}" stroke="var(--grid)" stroke-width="1"/>`;
+      grid+=`<text x="${margin.left-8}" y="${gy+3}" text-anchor="end" class="axis-label">${fmtUSD(lakToUSD(gv))}</text>`;
+    }
+
+    let bars='';
+    MONTH.forEach((d,i)=>{
+      const x = xAt(i)-bw/2;
+      const cost = d.total_opex+d.total_fixed;
+      const rev = d.total_revenue;
+      const bottomY = margin.top+plotH;
+      if(d.total_profit>=0){
+        // revenue covers cost: muted cost segment + navy profit segment on top
+        const costY = yAt(cost), revY = yAt(rev);
+        bars += `<rect x="${x}" y="${costY}" width="${bw}" height="${Math.max(bottomY-costY,0)}" fill="var(--muted)" rx="2">
+          <title>${d.date} ${d.weekday}：成本 ${fmtLAK(cost)}（≈${fmtUSD(lakToUSD(cost))}）</title></rect>`;
+        bars += `<rect x="${x}" y="${revY}" width="${bw}" height="${Math.max(costY-revY,0)}" fill="var(--navy)" rx="2">
+          <title>${d.date} ${d.weekday}：净利润 ${fmtLAK(d.total_profit)}（≈${fmtUSD(lakToUSD(d.total_profit))}）</title></rect>`;
+      } else {
+        // cost exceeds revenue: muted revenue-coverage segment + critical shortfall segment on top
+        const revY = yAt(rev), costY = yAt(cost);
+        bars += `<rect x="${x}" y="${revY}" width="${bw}" height="${Math.max(bottomY-revY,0)}" fill="var(--muted)" rx="2">
+          <title>${d.date} ${d.weekday}：营收 ${fmtLAK(rev)}（≈${fmtUSD(lakToUSD(rev))}）</title></rect>`;
+        bars += `<rect x="${x}" y="${costY}" width="${bw}" height="${Math.max(revY-costY,0)}" fill="var(--critical)" rx="2">
+          <title>${d.date} ${d.weekday}：亏损 ${fmtLAK(d.total_profit)}（≈${fmtUSD(lakToUSD(d.total_profit))}）</title></rect>`;
+      }
+      if(d.empty_count>0){
+        bars += `<circle cx="${xAt(i)}" cy="${yAt(Math.max(rev,cost))-9}" r="3.2" fill="var(--critical)"><title>${d.empty_desc}</title></circle>`;
+      }
+      if(i%4===0 || i===n-1){
+        bars += `<text x="${xAt(i)}" y="${H-16}" text-anchor="middle" class="axis-label">${d.date.slice(8)}</text>`;
+        bars += `<text x="${xAt(i)}" y="${H-5}" text-anchor="middle" class="axis-label">${d.weekday}</text>`;
+      }
+    });
+
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.innerHTML = grid + bars +
+      `<line x1="${margin.left}" x2="${margin.left}" y1="${margin.top}" y2="${margin.top+plotH}" stroke="var(--baseline,#c3c2b7)" stroke-width="1"/>`;
+  }
+
+  function renderMonth(){
+    renderMonthSummary();
+    renderMonthTable();
+    drawMonthChart();
+  }
+
+  // ---------------- calculator ----------------
+  let currentPlanId = 'A';
+
+  function simulate(product, qty, planId){
+    const plan = product.plans.find(p=>p.id===planId) || product.plans[0];
+    const principal = product.unitPriceCNY*qty;
+    const cars = product.carsPerUnit*qty;
+    const monthlyCNY = carMonthlyCNY(product)*cars;
+    const totalMonths = plan.totalMonths;
+    const share = plan.investorShare;
+    const guaranteeMonth = 12;
+    let cum=0, investorCum=0, operatorCum=0, paidBack=false, paybackMonth=null, guaranteeAmount=0;
+    const series=[];
+    for(let m=1;m<=totalMonths;m++){
+      if(!paidBack){
+        const remaining = principal-cum;
+        if(monthlyCNY<=remaining){
+          investorCum+=monthlyCNY; cum+=monthlyCNY;
+        } else {
+          const toP = remaining, surplus = monthlyCNY-toP;
+          investorCum += toP + surplus*share;
+          operatorCum += surplus*(1-share);
+          cum += monthlyCNY;
+          paidBack = true; paybackMonth = m;
+        }
+        if(!paidBack && m===guaranteeMonth){
+          const shortfall = principal-cum;
+          if(shortfall>0){
+            investorCum += shortfall;
+            cum = principal;
+            guaranteeAmount = shortfall;
+          }
+          paidBack = true; paybackMonth = m;
+        }
+      } else {
+        investorCum += monthlyCNY*share;
+        operatorCum += monthlyCNY*(1-share);
+      }
+      series.push({m, investorCum, operatorCum});
+    }
+    const organicPaybackMonths = principal/monthlyCNY;
+    return { principal, cars, monthlyCNY, organicPaybackMonths, guaranteeAmount, paybackMonth,
+      investorTotal: investorCum, operatorTotal: operatorCum, totalMonths, plan, series };
+  }
+
+  function avgFleetProfitLAK(){
+    return DETAIL.reduce((s,r)=>s+r.monthly_profit,0)/DETAIL.length;
+  }
+
+  function renderProductMeta(product){
+    const avgUSD = lakToUSD(avgFleetProfitLAK());
+    const avgCNY = avgUSD*RATE_CNY_PER_USD;
+    document.getElementById('productMeta').innerHTML =
+      `单车参照月利润：${fmtCNY(carMonthlyCNY(product))}（${fmtUSD(carMonthlyUSD(product))}）<br>${product.refNote}<br>${product.structureNote}<br>参考对比：7489-7492四台车实际平均月利润约 ${fmtCNY(avgCNY)}（${fmtUSD(avgUSD)}），本测算采用其中表现最优的7491号车数据，未采用四台车平均值。`;
+    const pc = document.getElementById('prodCardProfit');
+    if(pc) pc.textContent = `≈${fmtCNY(carMonthlyCNY(product))} / ${fmtUSD(carMonthlyUSD(product))}`;
+    const pcAvg = document.getElementById('prodCardAvgProfit');
+    if(pcAvg) pcAvg.textContent = `≈${fmtCNY(avgCNY)} / ${fmtUSD(avgUSD)}`;
+  }
+
+  function renderPlanSelector(product){
+    const row = document.getElementById('planRow');
+    row.innerHTML = '';
+    product.plans.forEach(plan=>{
+      const b = document.createElement('button');
+      b.type='button'; b.textContent = plan.label; b.dataset.plan = plan.id;
+      b.classList.toggle('active', plan.id===currentPlanId);
+      b.addEventListener('click', ()=>{ currentPlanId = plan.id; update(); });
+      row.appendChild(b);
+    });
+    const active = product.plans.find(p=>p.id===currentPlanId);
+    document.getElementById('planDesc').textContent = active.desc;
+  }
+
+  function renderResults(r){
+    const el = document.getElementById('resultGrid');
+    const totalReturnPct = (r.investorTotal-r.principal)/r.principal*100;
+    const years = r.totalMonths/12;
+    const annualized = totalReturnPct/years;
+    el.innerHTML = `
+      <div class="result-tile"><div class="rl">出资总额</div><div class="rv num">${fmtCNY(r.principal)}</div><div class="rv2 num">≈${fmtUSD(r.principal/RATE_CNY_PER_USD)}</div></div>
+      <div class="result-tile"><div class="rl">换得车辆</div><div class="rv num">${r.cars} 台</div><div class="rv2">按当前车型配置比例</div></div>
+      <div class="result-tile"><div class="rl">合计月利润</div><div class="rv num">${fmtCNY(r.monthlyCNY)}</div><div class="rv2 num">≈${fmtUSD(r.monthlyCNY/RATE_CNY_PER_USD)}/月</div></div>
+      <div class="result-tile"><div class="rl">回本进度（第一年）</div><div class="rv num">第${r.paybackMonth}个月</div><div class="rv2">${r.guaranteeAmount>0? '含公司兜底 '+fmtCNY(r.guaranteeAmount) : '12个月内自然回本，无需兜底'}</div></div>
+      <div class="result-tile hero"><div class="rl">${years}年投资人总现金流（本金+分成，${r.plan.label}）</div><div class="rv num">${fmtCNY(r.investorTotal)}</div><div class="rv2 num">总回报率 ${totalReturnPct.toFixed(1)}%　单利年化约 ${annualized.toFixed(1)}%/年</div></div>
+    `;
+  }
+
+  function renderPlanCompare(product, qty){
+    const rA = simulate(product, qty, 'A');
+    const rB = simulate(product, qty, 'B');
+    const fmtRow = (r)=>{
+      const pct = (r.investorTotal-r.principal)/r.principal*100;
+      const yrs = r.totalMonths/12;
+      const ann = pct/yrs;
+      return {pct, ann, yrs, total:r.investorTotal};
+    };
+    const A = fmtRow(rA), B = fmtRow(rB);
+    document.getElementById('planCompare').innerHTML = `
+      <div class="table-scroll"><table>
+        <thead><tr><th>方案对比（每份 ${fmtCNY(product.unitPriceCNY*qty)}）</th><th>方案A</th><th>方案B</th></tr></thead>
+        <tbody>
+          <tr><td>分成阶段</td><td>第2-3年，投资人40%</td><td>第2-4年，投资人30%</td></tr>
+          <tr><td>总周期</td><td>3年</td><td>4年</td></tr>
+          <tr><td>投资人总现金流</td><td class="hi num">${fmtCNY(A.total)}</td><td class="hi num">${fmtCNY(B.total)}</td></tr>
+          <tr><td>总回报率</td><td class="num">${A.pct.toFixed(1)}%</td><td class="num">${B.pct.toFixed(1)}%</td></tr>
+          <tr><td>单利年化</td><td class="hi num">${A.ann.toFixed(1)}%/年</td><td class="hi num">${B.ann.toFixed(1)}%/年</td></tr>
+        </tbody>
+      </table></div>
+      <div style="font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.6;">方案A周期短、年化更高；方案B周期长、比例更低但持续分成时间更久，投资人累计总现金流更高——按投资人对资金周转速度与总回报的偏好二选一。</div>
+    `;
+  }
+
+  function drawChart(r){
+    const svg = document.getElementById('cashflowChart');
+    const W=620, H=260, margin={top:16,right:16,bottom:30,left:60};
+    const plotW=W-margin.left-margin.right, plotH=H-margin.top-margin.bottom;
+    const maxV = Math.max(r.investorTotal, r.principal)*1.1;
+    const totalMonths = r.totalMonths;
+    const xAt = m => margin.left + (m/totalMonths)*plotW;
+    const yAt = v => margin.top + plotH - (v/maxV)*plotH;
+
+    let grid='';
+    const steps=4;
+    for(let i=0;i<=steps;i++){
+      const gv=maxV*i/steps, gy=yAt(gv);
+      grid+=`<line x1="${margin.left}" x2="${W-margin.right}" y1="${gy}" y2="${gy}" stroke="var(--grid)" stroke-width="1"/>`;
+      grid+=`<text x="${margin.left-6}" y="${gy+3}" text-anchor="end" class="axis-label">¥${Math.round(gv).toLocaleString('en-US')}</text>`;
+    }
+    // principal line
+    const py = yAt(r.principal);
+    const principalLine = `<line x1="${margin.left}" x2="${W-margin.right}" y1="${py}" y2="${py}" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4,3"/>`;
+
+    function pathFor(key, color){
+      let d='';
+      r.series.forEach((pt,i)=>{
+        const x=xAt(pt.m), y=yAt(pt[key]);
+        d += (i===0? `M${x},${y}` : ` L${x},${y}`);
+      });
+      return `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.5"/>`;
+    }
+    const investorPath = pathFor('investorCum', 'var(--gold)');
+    const operatorPath = pathFor('operatorCum', 'var(--teal)');
+
+    // breakeven marker: the exact month principal was fully recovered (organic + guarantee)
+    const bm = r.paybackMonth;
+    const bmPt = r.series[bm-1];
+    const marker = bmPt ? `<circle cx="${xAt(bm)}" cy="${yAt(bmPt.investorCum)}" r="4" fill="var(--gold)" stroke="var(--surface)" stroke-width="1.5"/>
+      <text x="${xAt(bm)}" y="${yAt(bmPt.investorCum)-10}" text-anchor="middle" class="axis-label" font-weight="700">第${bm}月回本</text>` : '';
+
+    const tickStep = totalMonths<=36? 6 : 6;
+    const ticks = [];
+    for(let m=tickStep;m<totalMonths;m+=tickStep) ticks.push(m);
+    ticks.unshift(1); ticks.push(totalMonths);
+    const xTicks = ticks.map(m=>`<text x="${xAt(m)}" y="${H-8}" text-anchor="middle" class="axis-label">${m}月</text>`).join('');
+
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.innerHTML = grid + principalLine + operatorPath + investorPath + marker + xTicks +
+      `<line x1="${margin.left}" x2="${margin.left}" y1="${margin.top}" y2="${margin.top+plotH}" stroke="var(--baseline,#c3c2b7)" stroke-width="1"/>`;
+  }
+
+  function update(){
+    const productId = document.getElementById('productSelect').value;
+    const product = PRODUCTS.find(p=>p.id===productId);
+    let qty = parseInt(document.getElementById('qtyInput').value, 10);
+    if(!qty || qty<1) qty=1;
+    document.getElementById('qtyInput').value = qty;
+    renderProductMeta(product);
+    renderPlanSelector(product);
+    const r = simulate(product, qty, currentPlanId);
+    renderResults(r);
+    drawChart(r);
+    renderPlanCompare(product, qty);
+    [...document.querySelectorAll('.preset-row button')].forEach(b=>{
+      b.classList.toggle('active', parseInt(b.dataset.qty,10)===qty);
+    });
+  }
+
+  function init(){
+    const sel = document.getElementById('productSelect');
+    sel.innerHTML = PRODUCTS.map(p=>`<option value="${p.id}">${p.name}（¥${p.unitPriceCNY.toLocaleString('en-US')}/份 · ${p.carsPerUnit}台）</option>`).join('');
+    sel.addEventListener('change', update);
+
+    const presetRow = document.getElementById('presetRow');
+    [1,3,5,10].forEach(q=>{
+      const b = document.createElement('button');
+      b.type='button'; b.textContent=q+'份'; b.dataset.qty=q;
+      b.addEventListener('click', ()=>{ document.getElementById('qtyInput').value=q; update(); });
+      presetRow.appendChild(b);
+    });
+
+    document.getElementById('qtyInput').addEventListener('input', update);
+    document.getElementById('qtyMinus').addEventListener('click', ()=>{
+      const inp=document.getElementById('qtyInput');
+      inp.value = Math.max(1, (parseInt(inp.value,10)||1)-1); update();
+    });
+    document.getElementById('qtyPlus').addEventListener('click', ()=>{
+      const inp=document.getElementById('qtyInput');
+      inp.value = (parseInt(inp.value,10)||1)+1; update();
+    });
+
+    // ---------------- exchange rate controls ----------------
+    const rateLakInput = document.getElementById('rateLakInput');
+    const rateCnyInput = document.getElementById('rateCnyInput');
+    function renderAll(){
+      renderStats();
+      renderMonth();
+      update();
+    }
+    function onRateChange(){
+      const lak = parseFloat(rateLakInput.value);
+      const cny = parseFloat(rateCnyInput.value);
+      if(lak && lak>0) RATE_LAK_PER_USD = lak;
+      if(cny && cny>0) RATE_CNY_PER_USD = cny;
+      renderAll();
+    }
+    rateLakInput.addEventListener('input', onRateChange);
+    rateCnyInput.addEventListener('input', onRateChange);
+    document.getElementById('rateReset').addEventListener('click', ()=>{
+      RATE_LAK_PER_USD = RATE_LAK_DEFAULT; RATE_CNY_PER_USD = RATE_CNY_DEFAULT;
+      rateLakInput.value = RATE_LAK_DEFAULT; rateCnyInput.value = RATE_CNY_DEFAULT;
+      renderAll();
+    });
+
+    renderStats();
+    renderDetail();
+    renderMonth();
+    update();
+  }
+
+  init();
+})();
+</script>
